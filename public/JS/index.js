@@ -30,7 +30,7 @@ $('#chatAppFrm').on('submit', function(event){
         from: 'User',
         text: $('#usrMsg').val()
     }, function(){
-
+        $('#usrMsg').val('');
     });
 });
 
@@ -38,12 +38,16 @@ $('#sendLocation').on('click', function(){
     if (!navigator.geolocation){
         return alert('No geolocation available for your browser');
     }
+    $('#sendLocation').attr('disabled','disabled').text('Sending location...');
+
     navigator.geolocation.getCurrentPosition(function(position){
+        $('#sendLocation').removeAttr('disabled').text('Send location');
         socket.emit('createLocationMessage', {
             latitude : position.coords.latitude,
             longitude : position.coords.longitude
         });
     }, function(){
+        $('#sendLocation').removeAttr('disabled').text('Send location');
         alert('Unable to fetch location');
     });
 });
