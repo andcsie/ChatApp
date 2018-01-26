@@ -5,16 +5,17 @@ socket.on('connect', function(){
 });
 
 socket.on('newMessage', function(message) {
-    console.log('New message:', message);
+    var timeStamp = moment(message.createdAt).format('h:mm a');
     var li = jQuery('<li></li>');
-    li.text(`${message.from}: ${message.text}`);
+    li.text(`${message.from} ${timeStamp} : ${message.text}`);
     $('#msgsHist').append(li);
 });
 
 socket.on('newLocationMessage', function(message){
+    var formTime = moment(message.createdAt).format('h:mm a');
     var li = jQuery('<li></li>');
     var anchor = jQuery('<a target="_blank">My current location</a>');
-    li.text(`${message.from}: `);
+    li.text(`${message.from} ${formTime} : `);
     anchor.attr('href', message.url);
     li.append(anchor);
     $('#msgsHist').append(li);
